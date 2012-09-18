@@ -36,6 +36,7 @@ int main(int argc, char **argv)
 	int blinkSpeed;
 	char * codeName;
 	int ainInput, adcInput, rc, len;
+	double ainAdjusted, adcAdjusted;
 	struct pollfd fdset[2];
 	char *buf[MAX_BUF];
 	int input_fd,output_fd, inputButton_fd, startOverButton_fd, timeout;
@@ -100,7 +101,9 @@ int main(int argc, char **argv)
 		//Comparing values to activate the alarm.
 		printf("\nain input: %d\n", ainInput);
 		printf("I2C input: %d", adcInput);
-		printf("ain Input: %f, I2C Input: %f",(double)(ainInput/4094), (double)(adcInput/38));
+		ainAdjusted = ainInput/4094;
+		adcAdjusted = adcInput/38;
+		printf("ain Input: %f, I2C Input: %f",ainAdjusted, adcAdjusted);
 		if((ainInput/4094)<(adcInput/38)){
 			//set_pwm("ehrpwm.1:0",10, 25);
 			printf("\nSet PWM");
