@@ -100,13 +100,14 @@ int main(int argc, char **argv)
 		//Comparing values to activate the alarm.
 		printf("\nain input: %d\n", ainInput);
 		printf("I2C input: %d", adcInput);
+		printf("ain Input: %f, I2C Input: %f",(double)(ainInput/4094), (double)(adcInput/38));
 		if((ainInput/4094)<(adcInput/38)){
 			//set_pwm("ehrpwm.1:0",10, 25);
-			printf("Set PWM");
+			printf("\nSet PWM");
 		}
 		else{
 			//unset_pwm("ehrpwm.1:0");
-			printf("Unset PWM");
+			printf("\nUnset PWM");
 		}
 		morseCodeLight(codeName);
 		if (fdset[1].revents & POLLPRI) {
