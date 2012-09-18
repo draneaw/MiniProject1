@@ -98,6 +98,8 @@ int main(int argc, char **argv)
 		//Get I2C to Compare
 		adcInput = i2cRead(3, 0x48);
 		//Comparing values to activate the alarm.
+		printf("\nain input: %f", ainInput);
+		printf("\I2C input : %f", adcInput);
 		if((ainInput/1.8)<(adcInput/100)){
 			//set_pwm("ehrpwm.1:0",10, 25);
 		}
