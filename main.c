@@ -48,7 +48,7 @@ int main(int argc, char **argv)
 		exit(-1);
 	}
 	blinkSpeed = atoi(argv[1]);
-	codeName = (char*) malloc (strlen(*argv[2]));
+	codeName = (char*) malloc (strlen(argv[2]));
 	codeName = argv[2];
 
 	//Output Light - Output bitstream response
