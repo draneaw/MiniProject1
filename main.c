@@ -78,10 +78,9 @@ int main(int argc, char **argv)
 	startOverButton_fd = gpio_fd_open(48);
 	//Ain1 Temp Control input
 	// read_ain("ain1");
-//set_gpio_value(7, 1);
+	//set_gpio_value(7, 1);
 	timeout = POLL_TIMEOUT;
 	while(keepRunning){
-
 
 	    memset((void*)fdset, 0, sizeof(fdset));
 
@@ -99,12 +98,12 @@ int main(int argc, char **argv)
 		//Get I2C to Compare
 		adcInput = i2cRead(3, 0x48);
 		//Comparing values to activate the alarm.
-		if((ainInput/1.8)<(adcInput/100)){
+		/*if((ainInput/1.8)<(adcInput/100)){
 			set_pwm("ehrpwm.1:0",10, 25);
 		}
 		else{
 			unset_pwm("ehrpwm.1:0");
-		}
+		}*/
 		morseCodeLight(codeName);
 		if (fdset[1].revents & POLLPRI) {
 			 lseek(fdset[1].fd, 0, SEEK_SET);  // Read from the star$
