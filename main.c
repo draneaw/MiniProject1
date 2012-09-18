@@ -99,10 +99,10 @@ int main(int argc, char **argv)
 		adcInput = i2cRead(3, 0x48);
 		//Comparing values to activate the alarm.
 		if((ainInput/1.8)<(adcInput/100)){
-			set_pwm("ehrpwm.1:0",10, 25);
+			//set_pwm("ehrpwm.1:0",10, 25);
 		}
 		else{
-			unset_pwm("ehrpwm.1:0");
+			//unset_pwm("ehrpwm.1:0");
 		}
 		morseCodeLight(codeName);
 		if (fdset[1].revents & POLLPRI) {
