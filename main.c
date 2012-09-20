@@ -92,37 +92,40 @@ int main(int argc, char **argv)
 	    fdset[1].events = POLLPRI;
 
 	    rc = poll(fdset, 2, timeout);
+	    if (fdset[1].revents & POLLPRI) {
+	    	lseek(fdset[1].fd, 0, SEEK_SET);  // Read from the star$
+	    	len = read(fdset[1].fd, buf, MAX_BUF);
+	    	printf("\nEnter in a text string");
+	    	fgets(codeName, sizeof codeName, stdin);
 
+	    }
+
+	    if (fdset[0].revents & POLLIN) {
+	    	(void)read(fdset[0].fd, buf, 1);
+	    	//printf("\npoll() stdin read 0x%2.2X\n", (unsigned int) $);
+	    }
 		set_gpio_value(49, 1);
 		//Get Analog to Compare
 		ainInput = read_ain("ain1");
 		//Get I2C to Compare
 		adcInput = i2cRead(3, 0x48);
 		//Comparing values to activate the alarm.
-		printf("\nain input: %d\n", ainInput);
-		printf("I2C input: %d", adcInput);
-		ainAdjusted = ainInput/4094;
-		adcAdjusted = adcInput/38;
-		printf("ain Input: %f, I2C Input: %f",ainAdjusted, adcAdjusted);
-		if((ainInput/4094)<(adcInput/38)){
-			//set_pwm("ehrpwm.1:0",10, 25);
+		//printf("\nain input: %d\n", ainInput);
+	//	printf("I2C input: %d", adcInput);
+		ainAdjusted = ainInput/4094.0;
+		adcAdjusted = adcInput/38.0;
+		printf("\nain Input: %f, I2C Input: %f",ainAdjusted, adcAdjusted);
+		if((ainInput/4094.0)<(adcInput/38.0)){
+			set_pwm("ehrpwm.1:0",10, 25);
 			printf("\nSet PWM");
 		}
 		else{
-			//unset_pwm("ehrpwm.1:0");
+			unset_pwm("ehrpwm.1:0");
 			printf("\nUnset PWM");
 		}
+		set_gpio_value(49, 0);
 		morseCodeLight(codeName);
-		if (fdset[1].revents & POLLPRI) {
-			 lseek(fdset[1].fd, 0, SEEK_SET);  // Read from the star$
-		     len = read(fdset[1].fd, buf, MAX_BUF);
-		   //  printf("\npoll() GPIO %d interrupt occurred, value=%c", $gpio, buf[0], len);
-		}
-
-		if (fdset[0].revents & POLLIN) {
-		     (void)read(fdset[0].fd, buf, 1);
-		     //printf("\npoll() stdin read 0x%2.2X\n", (unsigned int) $);
-		}
+		set_gpio_value(49, 1);
 	}
 	return 0;
 }
